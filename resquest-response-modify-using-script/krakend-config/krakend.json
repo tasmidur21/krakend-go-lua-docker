@@ -1,0 +1,27 @@
+{
+    "version": 3,
+    "name": "KrakenD API Gateway",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "/etc/krakend/plugins"
+    },
+    "endpoints": [
+        {
+            "endpoint": "/data",
+            "method": "GET",
+            "extra_config": {
+                "plugin/http-client": {
+                    "name": "krakend-header-example"
+                }
+            },
+            "backend": [
+                {
+                    "url_pattern": "/api/data",
+                    "host": [
+                        "http://hotel-service:3000"
+                    ]
+                }
+            ]
+        }
+    ]
+}
