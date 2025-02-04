@@ -1,24 +1,32 @@
-
-
 package main
 
 import (
-	"github.com/luraproject/lura/v2/proxy"
+    "errors"
+    "fmt"
+    "io"
+    "net/url"
 )
 
-func ModifyRequest(req *proxy.Request) {
-	req.Headers["X-Go-Header"] = []string{"ModifiedByGo"}
+func main() {}
+
+func init() {
+    fmt.Println(string(ModifierRegisterer), "loaded!!!")
 }
 
-func ModifyResponse(res *proxy.Response) {
-	res.Data["message_by_go"] = "Modified by Go Plugin"
-}
+// ModifierRegisterer is the symbol the plugin loader will be looking for. It must
+// implement the plugin.Registerer interface
+// https://github.com/luraproject/lura/blob/master/proxy/plugin/modifier.go#L71
+var ModifierRegisterer = registerer("krakend-debugger")
+var registerer = func(name string) interface{} {
+	return struct {
+		plugin.Registerer
+		io.Writer
+		io.Reader
+		io.Closer
+		io.StringWriter
+		io.ByteWriter
+		
 
-var Plugin = struct {
-	Pre  func(*proxy.Request)
-	Post func(*proxy.Response)
-}{
-	Pre:  ModifyRequest,
-	Post: ModifyResponse,
-}
+
+
 

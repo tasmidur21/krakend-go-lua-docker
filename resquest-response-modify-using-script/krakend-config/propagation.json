@@ -19,7 +19,16 @@
                     "mapping": {
                         "blog": "website"
                     },
-                    "group": "org"
+                    "group": "source_result",
+                    "extra_config":{
+                        "modifier/lua-backend": {
+                            "sources": [
+                                "/etc/krakend/scripts/post_proxy_decorator.lua"
+                            ],
+                            "post": "print('Lua proxy post modifier'); post_proxy_decorator(response);"
+                        }
+                    }
+                    
                 },
                 {
                     "url_pattern": "/orgs/{org}/repos",
